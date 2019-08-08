@@ -35,10 +35,7 @@ namespace ProcessTasksAsTheyFinish
             {
                 ListViewCsv.ItemsSource = SetUpURLList();
 
-                //csvCount.Text = SetUpURLList().Count.ToString();
                 taskCount.Text = SetUpURLList().Count.ToString();
-
-
             }
             catch
             {
@@ -53,11 +50,6 @@ namespace ProcessTasksAsTheyFinish
                 resultsTextBox.Clear();
                 await AccessTheWebAsync();
             }
-
-
-
-
-            
         }
 
 
@@ -77,19 +69,14 @@ namespace ProcessTasksAsTheyFinish
 
             //Create an observable collection of downloadTask to update the Listview dynamically
             ObservableCollection<Task<string>> taskList = new ObservableCollection<Task<string>>(downloadTasks);
-
+            //Get all task that are running
             RunningTasks.ItemsSource = taskList;
 
             // ***Add a loop to process the tasks one at a time until none remain.
             while (taskList.Count > 0)
             {
-                //Get all task that are running
-
-                
                 // Identify the first task that completes.
                 Task<string> firstFinishedTask = await Task.WhenAny(taskList);
-                
-                    
                 
                 // ***Remove the selected task from the list so that you don't
                 // process it more than once.
@@ -137,16 +124,10 @@ namespace ProcessTasksAsTheyFinish
                 {
                     //copy the content from response to filestream
                     await response.Content.CopyToAsync(fileStream);
-
-
                 }
                 
-               
             }
             return filename + " - Statuscode: " + response.StatusCode;
-
-
-
         }
 
     }
