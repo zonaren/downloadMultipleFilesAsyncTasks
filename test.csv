@@ -1,0 +1,5 @@
+Id,StasjonNr,Navn,IpAdresse
+"1","001","ExtraSmall","http://212.183.159.230/5MB.zip"
+"2","002","Small","http://212.183.159.230/10MB.zip"
+"3","003","Medium","http://212.183.159.230/20MB.zip"
+"4","004","Big","http://212.183.159.230/50MB.zip"
