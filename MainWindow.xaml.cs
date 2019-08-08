@@ -30,6 +30,7 @@ namespace ProcessTasksAsTheyFinish
         public MainWindow()
         {
             InitializeComponent();
+            // Initialize list created from the .csv file and show the values in ListView
             SetUpURLList();
             try
             {
@@ -45,6 +46,7 @@ namespace ProcessTasksAsTheyFinish
 
         private async void startButton_Click(object sender, RoutedEventArgs e)
         {
+            
             while (true)
             {
                 resultsTextBox.Clear();
@@ -69,7 +71,7 @@ namespace ProcessTasksAsTheyFinish
 
             //Create an observable collection of downloadTask to update the Listview dynamically
             ObservableCollection<Task<string>> taskList = new ObservableCollection<Task<string>>(downloadTasks);
-            //Get all task that are running
+            // Output all task that are running.
             RunningTasks.ItemsSource = taskList;
 
             // ***Add a loop to process the tasks one at a time until none remain.
@@ -82,16 +84,19 @@ namespace ProcessTasksAsTheyFinish
                 // process it more than once.
                 taskList.Remove(firstFinishedTask);
 
-                    // Await the completed task.
-                    string returnedValue = await firstFinishedTask;
-                    taskCount.Text = taskList.Count.ToString();
-                    resultsTextBox.Text += "\r\nTask: " + firstFinishedTask.Id + " TaskStatus: " + firstFinishedTask.Status + " - " + returnedValue + "\r\n";
+                // Await the completed task.
+                string returnedValue = await firstFinishedTask;
+                // Output completed tasks
+                resultsTextBox.Text += "\r\nTask: " + firstFinishedTask.Id + " TaskStatus: " + firstFinishedTask.Status + " - " + returnedValue + "\r\n";
+                // Display the number of currently running tasks
+                taskCount.Text = taskList.Count.ToString();
             }
         }
 
 
         private List<CsvList> SetUpURLList()
         {
+            //create the list from .csv file
             var urls = File.ReadAllLines("D:\\DownloadTest\\test.csv")
                 .Skip(1)
                 .Select(v => v.Split(','))
@@ -101,7 +106,6 @@ namespace ProcessTasksAsTheyFinish
                     StasjonNr = v[1].Replace("\"", ""),
                     Navn = v[2].Replace("\"", ""),
                     IpAdresse = v[3].Replace("\"", "")
-                    //Progress = AccessTheWebAsync().Status.ToString()
                 }).ToList();
 
             return urls;
